@@ -3,7 +3,7 @@
 ISR text operations on the [Reuters dataset](https://huggingface.co/datasets/ucirvine/reuters21578) from Hugging Face.
 
 
-To install use this code install the required dependencies by running:
+To use this code install the required dependencies by running:
 
 ```bash
 pip install -r requirements.txt
