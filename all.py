@@ -14,7 +14,6 @@ from datasets import load_dataset
 class TextOperations:
     def fetch_and_save_reuters(output_path):
         #loading the dataset from huggingface
-        #to get the dataset in the format we want, we select the title and the text content of each document and output them to a json
         dataset = load_dataset("ucirvine/reuters21578", "ModApte")
         train_dataset = dataset['train']
         test_dataset = dataset['test']
@@ -138,24 +137,19 @@ class TextOperations:
         print(f"- Final Index Terms: {len(index_terms)} words")
 
 
+
 if __name__ == "__main__":
     # 0. Fetch and save Reuters dataset from Hugging Face
     TextOperations.fetch_and_save_reuters("reuters_dataset.json")
-    
     # 1. Lowercase and save
     TextOperations.save_cleaned_reuters_dataset("reuters_dataset.json", "reuters_dataset_lower.json")
-    
     # 2. Tokenize
     TextOperations.tokenize_dataset("reuters_dataset_lower.json", "tokenized_reuters_dataset.json")
-    
-    # 3. Word frequencies before removing duplicates
-    TextOperations.word_frequencies("tokenized_reuters_dataset.json", "word_frequencies.json")
-    
-    # 4. Rank frequencies and plot
-    TextOperations.rank_frequencies("word_frequencies.json", "ranked_words.json", plot=False)
-    
-    # 5. Luhn index terms
-    TextOperations.luhn_index_terms("word_frequencies.json", "luhn_results_with_cutoffs.json")
-
-    # 6. duplicate removal
+    # 3. Remove duplicates
     TextOperations.remove_duplicates("tokenized_reuters_dataset.json", "reuters_dataset_no_duplicates.json")
+    # 4. Word frequencies
+    TextOperations.word_frequencies("reuters_dataset_no_duplicates.json", "word_frequencies.json")
+    # 5. Rank frequencies and plot
+    TextOperations.rank_frequencies("word_frequencies.json", "ranked_words.json", plot=True)
+    # 6. Luhn index terms
+    TextOperations.luhn_index_terms("word_frequencies.json", "luhn_results_with_cutoffs.json")
